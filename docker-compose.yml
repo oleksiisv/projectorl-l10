@@ -1,0 +1,67 @@
+services:
+  ### nginx ################################################
+  nginx:
+    build:
+      context: ./context/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    volumes:
+      - ./config/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - php-fpm
+
+  ### php-fpm ################################################
+  php-fpm:
+    build:
+      context: ./context/php-fpm
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./www:/var/www/html
+
+  ### Redis ################################################
+  redis-aof:
+    image: 'bitnami/redis:latest'
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_PASSWORD=password
+    ports:
+      - '6379:6379'
+    volumes:
+      - '${PWD}/data/redis-aof:/bitnami/redis/data'
+      - '${PWD}/config/redis-aof/redis.conf:/opt/bitnami/redis/etc/redis.conf'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      retries: 3
+      timeout: 5s
+    depends_on:
+      - php-fpm
+
+  ### Redis ################################################
+  redis-rdb:
+    image: 'bitnami/redis:latest'
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_PASSWORD=password
+    ports:
+      - '6379:6379'
+    volumes:
+      - '${PWD}/data/redis-rdb:/bitnami/redis/data'
+      - '${PWD}/config/redis-rdb/redis.conf:/opt/bitnami/redis/etc/redis.conf'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      retries: 3
+      timeout: 5s
+    depends_on:
+      - php-fpm
+
+  ### Beanstalkd ###########################################
+  beanstalkd:
+    image: 'schickling/beanstalkd:latest'
+    ports:
+      - "11300:11300"
+    privileged: true
+    depends_on:
+      - php-fpm

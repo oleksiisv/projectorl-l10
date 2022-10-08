@@ -1,0 +1,11 @@
+{
+    "require": {
+        "pda/pheanstalk": "*",
+        "fakerphp/faker": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Svystunov\\Projector10\\": "src"
+        }
+    }
+}
