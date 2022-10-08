@@ -5,8 +5,11 @@ Run ```docker-compose up -d``` command to start application. Run ```composer upd
 
 > As both redis containers are configured to use port 6379 only one will start
 
-Redis application files are loaded in www/src/Svystunov/Projector10/Redis directory. 
+Redis producer and consumer are in www/src/Svystunov/Projector10/Redis directory. 
 
+Beanstalkd producer and consumer are in www/src/Svystunov/Projector10/Beanstalkd directory.
+
+Application endpoint is index.php
 ___
 
 Application actions can be defined througb get parameters ```connector``` (values: redis and beanstalkd) and ```action```(value: read and write). 
@@ -22,8 +25,7 @@ AOF read: Elapsed time 227.79 sec, Data transferred: 969.17 MB
 ### Redis RDB
 
 **config:**\
-appendonly yes \
-save 3600 1 300 100 60 10000
+ save 3600 1 300 100 60 10000
 
 ##### Write case
 
