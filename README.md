@@ -16,11 +16,14 @@ Application actions can be defined througb get parameters ```connector``` (value
 
 ## Test cases
 
-RDB write: Elapsed time 6.43 sec \
-RDB read: Elapsed time 226.86 sec, Data transferred: 968.24 MB
+Redis RDB write: 42.90 sec \
+Redis RDB read: 1.93 sec
 
-AOF write: Elapsed time 40.02 sec \
-AOF read: Elapsed time 227.79 sec, Data transferred: 969.17 MB
+Redis AOF write: 42.55 sec \
+Redis AOF read: 1.86 sec 
+
+Beanstalkd write: 51.91 sec \
+Beanstalkd read: 0.47 sec
 
 ### Redis RDB
 
